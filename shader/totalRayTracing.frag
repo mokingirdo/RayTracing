@@ -20,14 +20,16 @@ float rand(vec2 co) {
   return 2 * fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453) - 0.5;
 }
 
-double length_squared(vec3 v)
+vec3 rand_vec3(vec3 co)
 {
-    return v.x * v.x + v.y * v.y + v.z * v.z;
+    return vec3(rand(co.xx), rand(co.yy), rand(co.zz));
 }
 
-vec3 rand_vec3(vec2 co)
-{
-    return vec3(rand(co.xx), rand(co.yy), rand(co));
+vec3 random_on_unit_sphere(vec3 n) {
+    while (true) {
+        vec3 p = rand_vec3(n);
+        return normalize(p);
+    }
 }
 
 float hit_sphere(vec3 center, float r, vec3 origin, vec3 dir)
@@ -53,7 +55,9 @@ vec3 calculate_sphere__normal(float radius, vec3 center, float x, float y)
     if (hit_sph_res > 0.)
     {
         vec3 N = hit_sph_res * ray - vec3(0., 0., -1.);
-        return 0.5*(N + vec3(1.));
+        vec3 direction = random_on_unit_sphere(N);
+        if (dot(direction, N) < 0) direction = -direction;
+        return 0.5*(direction.x + vec3(1.));
     }
     return fragColor.rgb;
 }

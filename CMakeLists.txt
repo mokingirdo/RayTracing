@@ -52,6 +52,7 @@ qt6_add_shaders(${PROJECT_NAME} "porting-example-shaders"
     FILES
         "shader/simpleShader.frag"
         "shader/fractalShadeer.frag"
+        "shader/fractalVertex.vert"
         "shader/circles.frag"
         "shader/kaleidoscope.frag"
         "shader/reflection.frag"
